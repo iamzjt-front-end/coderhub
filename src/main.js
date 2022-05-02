@@ -1,5 +1,6 @@
 const app = require("./app");
+const config = require("../src/app/config");
 
-app.listen(process.env.APP_PORT, () => {
-  console.log(`服务器在${process.env.APP_PORT}端口启动成功~`);
+app.listen(config.APP_PORT, () => {
+  console.log(`服务器在${config.APP_PORT}端口启动成功~`);
 });
