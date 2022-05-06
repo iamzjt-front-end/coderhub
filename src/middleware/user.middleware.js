@@ -8,7 +8,7 @@ const verifyUser = async (ctx, next) => {
   const { name, password } = ctx.request.body;
 
   // 2.判断用户名和密码不能为空
-  if (!name || !password || name === '' || password === '') {
+  if (!name || !password) {
     const errorMsg = new Error(errorTypes.NAME_OR_PASSWORD_IS_REQUIRED);
     return ctx.app.emit("error", errorMsg, ctx);
   }
