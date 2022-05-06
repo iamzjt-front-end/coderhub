@@ -1,6 +1,6 @@
 const errorTypes = require("../constants/error-types");
 const service = require("../service/user.service");
-const { md5Encrypt } = require("../utils/password-handle");
+const md5Encrypt = require("../utils/password-handle");
 
 // 校验用户名密码
 const verifyUser = async (ctx, next) => {

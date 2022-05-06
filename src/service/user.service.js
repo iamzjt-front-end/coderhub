@@ -1,3 +1,6 @@
+/**
+ * 用户注册
+ */
 const connection = require("../app/database");
 
 class UserService {

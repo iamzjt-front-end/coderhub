@@ -7,6 +7,4 @@ const md5Encrypt = (pwd) => {
   return result;
 }
 
-module.exports = {
-  md5Encrypt
-};
+module.exports = md5Encrypt;

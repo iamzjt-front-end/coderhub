@@ -1,3 +1,6 @@
+/**
+ * 用户注册
+ */
 const Router = require("koa-router");
 const { create } = require("../controller/user.controller");
 const { verifyUser, handlePassword } = require("../middleware/user.middleware");

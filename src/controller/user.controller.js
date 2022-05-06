@@ -1,3 +1,6 @@
+/**
+ * 用户注册
+ */
 const service = require("../service/user.service");
 
 class UserController {
