@@ -4,4 +4,4 @@ dotenv.config({
   path: ".env.dev"
 })
 
-module.exports = { ...process.env }
+module.exports = process.env;
