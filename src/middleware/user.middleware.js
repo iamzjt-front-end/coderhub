@@ -1,3 +1,6 @@
+/**
+ * 用户注册
+ */
 const errorTypes = require("../constants/error-types");
 const service = require("../service/user.service");
 const md5Encrypt = require("../utils/password-handle");
