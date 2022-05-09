@@ -29,6 +29,7 @@ const verifyLogin = async (ctx, next) => {
     return ctx.app.emit("error", errorMsg, ctx);
   }
 
+  ctx.user = user;
   await next();
 }
 
