@@ -23,6 +23,10 @@ const errorHandler = (error, ctx) => {
       status = 401;
       message = "无效的token~";
       break;
+    case errorTypes.Not_LOGGED_IN:
+      status = 401;
+      message = "未登录, 无权操作~";
+      break;
     default:
       status = 404;
       message = "NOT FOUND";

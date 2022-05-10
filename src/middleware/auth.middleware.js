@@ -38,6 +38,10 @@ const verifyLogin = async (ctx, next) => {
 const verifyAuth = async (ctx, next) => {
   // 1. 获取token
   const authorization = ctx.headers.authorization;
+  if (!authorization) {
+    const errorMsg = new Error(errorTypes.Not_LOGGED_IN)
+    return ctx.app.emit("error", errorMsg, ctx);
+  }
   const token = authorization.replace("Bearer ", "");
 
   // 2. 验证token
