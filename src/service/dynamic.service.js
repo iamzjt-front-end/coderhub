@@ -12,7 +12,14 @@ class DynamicService {
   }
 
   async getDynamicById(dynamicId) {
-    const statement = `SELECT * FROM dynamic WHERE user_id = ?;`;
+    const statement = `
+      SELECT 
+        d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
+        JSON_OBJECT('id', u.id, 'name', u.name) user
+        FROM dynamic d 
+        LEFT JOIN user u ON d.user_id = u.id 
+        WHERE d.id = ?;
+    `;
 
     const result = await connection.execute(statement, [dynamicId]);
     return result[0];

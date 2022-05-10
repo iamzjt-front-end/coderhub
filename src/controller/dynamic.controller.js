@@ -14,7 +14,7 @@ class DynamicController {
   }
 
   async detail(ctx, next) {
-    // 获取用户id
+    // 获取动态id
     const dynamicId = ctx.params.dynamicId;
 
     // 根据id去查询这条数据
