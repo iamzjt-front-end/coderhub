@@ -3,6 +3,14 @@
  */
 const connection = require("../app/database");
 
+const sqlFragment = `
+  SELECT 
+    d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
+    JSON_OBJECT('id', u.id, 'name', u.name) user
+    FROM dynamic d 
+    LEFT JOIN user u ON d.user_id = u.id
+`;
+
 class DynamicService {
   async create(userId, content) {
     const statement = `INSERT INTO dynamic (user_id, content) values (?, ?);`;
@@ -12,22 +20,8 @@ class DynamicService {
   }
 
   async getDynamicList(userId, offset, size) {
-    const statement1 = `
-      SELECT 
-        d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
-        JSON_OBJECT('id', u.id, 'name', u.name) user
-        FROM dynamic d 
-        LEFT JOIN user u ON d.user_id = u.id 
-        WHERE d.user_id = ? LIMIT ?, ?;
-    `;
-    const statement2 = `
-      SELECT 
-        d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
-        JSON_OBJECT('id', u.id, 'name', u.name) user
-        FROM dynamic d 
-        LEFT JOIN user u ON d.user_id = u.id
-        LIMIT ?, ?;
-    `;
+    const statement1 = `${ sqlFragment } WHERE d.user_id = ? LIMIT ?, ?;`;
+    const statement2 = `${ sqlFragment } LIMIT ?, ?;`;
     let result;
     if (userId) {
       result = await connection.execute(statement1, [userId, offset, size]);
