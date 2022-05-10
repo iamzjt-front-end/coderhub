@@ -16,7 +16,7 @@ class AuthController {
   }
 
   async success(ctx, next) {
-
+    ctx.body = "token验证通过~";
   }
 }
 

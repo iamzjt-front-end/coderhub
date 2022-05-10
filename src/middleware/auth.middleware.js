@@ -47,7 +47,7 @@ const verifyAuth = async (ctx, next) => {
     });
   } catch (error) {
     const errorMsg = new Error(errorTypes.NOT_AUTHORIZATION);
-    ctx.app.emit("error", errorMsg, ctx);
+    return ctx.app.emit("error", errorMsg, ctx);
   }
 
   await next();
