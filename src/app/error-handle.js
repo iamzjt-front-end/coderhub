@@ -19,6 +19,10 @@ const errorHandler = (error, ctx) => {
       status = 400; // 参数错误
       message = "密码错误~";
       break;
+    case errorTypes.NOT_AUTHORIZATION:
+      status = 401;
+      message = "无效的token~";
+      break;
     default:
       status = 404;
       message = "NOT FOUND";

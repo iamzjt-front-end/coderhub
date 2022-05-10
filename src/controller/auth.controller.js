@@ -12,11 +12,11 @@ class AuthController {
       algorithm: "RS256"
     });
     // ctx.body = `登录成功，欢迎${ name }回来~`;
-    ctx.body = {
-      id,
-      name,
-      token
-    }
+    ctx.body = { id, name, token };
+  }
+
+  async success(ctx, next) {
+
   }
 }
 
