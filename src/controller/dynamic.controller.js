@@ -13,12 +13,17 @@ class DynamicController {
     ctx.body = await service.create(userId, content);
   }
 
-  async detail(ctx, next) {
-    // 获取userId
-    const userId = ctx.params.userId;
+  async list(ctx, next) {
+    // 获取数据（userId, offset, size）
+    const { userId, offset, size } = ctx.query;
 
-    // 根据id去查询这条数据
-    ctx.body = await service.getDynamicByUserId(userId);
+    // 有userId, 就查这个用户的动态列表
+    // 没有userId, 就查询所有数据
+    if (userId) {
+      ctx.body = await service.getDynamicList(userId, offset, size);
+    } else {
+      ctx.body = await service.getDynamicList(null, offset, size);
+    }
   }
 }
 

@@ -11,17 +11,29 @@ class DynamicService {
     return result[0];
   }
 
-  async getDynamicByUserId(userId) {
-    const statement = `
+  async getDynamicList(userId, offset, size) {
+    const statement1 = `
       SELECT 
         d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
         JSON_OBJECT('id', u.id, 'name', u.name) user
         FROM dynamic d 
         LEFT JOIN user u ON d.user_id = u.id 
-        WHERE d.user_id = ?;
+        WHERE d.user_id = ? LIMIT ?, ?;
     `;
-
-    const result = await connection.execute(statement, [userId]);
+    const statement2 = `
+      SELECT 
+        d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
+        JSON_OBJECT('id', u.id, 'name', u.name) user
+        FROM dynamic d 
+        LEFT JOIN user u ON d.user_id = u.id
+        LIMIT ?, ?;
+    `;
+    let result;
+    if (userId) {
+      result = await connection.execute(statement1, [userId, offset, size]);
+    } else {
+      result = await connection.execute(statement2, [offset, size]);
+    }
     return result[0];
   }
 }

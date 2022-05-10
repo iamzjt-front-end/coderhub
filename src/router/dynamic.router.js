@@ -3,11 +3,11 @@
  */
 const Router = require("koa-router");
 const { verifyAuth } = require("../middleware/auth.middleware");
-const { create, detail } = require("../controller/dynamic.controller");
+const { create, list } = require("../controller/dynamic.controller");
 
 const dynamicRouter = new Router({ prefix: "/dynamic" });
 
 dynamicRouter.post("/", verifyAuth, create);
-dynamicRouter.get("/:userId", detail); // 查询某个用户发布的动态列表
+dynamicRouter.get("/", list); // 查询动态列表（分页查询） 传userId时查单个用户, 不传查所有
 
 module.exports = dynamicRouter;
