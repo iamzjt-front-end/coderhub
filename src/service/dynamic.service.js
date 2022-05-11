@@ -30,6 +30,12 @@ class DynamicService {
     }
     return result[0];
   }
+
+  async update(dynamicId, content) {
+    const statement = `UPDATE dynamic SET content = ? WHERE id = ?;`;
+    const result = connection.execute(statement, [content, dynamicId]);
+    return result[0];
+  }
 }
 
 module.exports = new DynamicService();

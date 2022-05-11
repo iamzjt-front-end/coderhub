@@ -1,7 +1,7 @@
 /**
  * 动态
  */
-const service = require("../service/dynamic.service");
+const dynamicService = require("../service/dynamic.service");
 
 class DynamicController {
   async create(ctx, next) {
@@ -10,7 +10,7 @@ class DynamicController {
     const content = ctx.request.body.content;
 
     // 2. 将数据插入到数据库
-    ctx.body = await service.create(userId, content);
+    ctx.body = await dynamicService.create(userId, content);
   }
 
   async list(ctx, next) {
@@ -20,18 +20,17 @@ class DynamicController {
     // 有userId, 就查这个用户的动态列表
     // 没有userId, 就查询所有数据
     if (userId) {
-      ctx.body = await service.getDynamicList(userId, offset, size);
+      ctx.body = await dynamicService.getDynamicList(userId, offset, size);
     } else {
-      ctx.body = await service.getDynamicList(null, offset, size);
+      ctx.body = await dynamicService.getDynamicList(null, offset, size);
     }
   }
 
   async update(ctx, next) {
     const { dynamicId } = ctx.params;
     const { content } = ctx.request.body;
-    const { id } = ctx.user;
 
-    ctx.body = "修改成功~";
+    ctx.body = await dynamicService.update(dynamicId, content);
   }
 }
 
