@@ -2,7 +2,7 @@
  * 用户注册
  */
 const errorTypes = require("../constants/error-types");
-const service = require("../service/user.service");
+const userService = require("../service/user.service");
 const md5Encrypt = require("../utils/password-handle");
 
 // 校验用户名密码
@@ -17,7 +17,7 @@ const verifyUser = async (ctx, next) => {
   }
 
   // 3.判断此次注册的用户名是否已存在
-  const result = await service.getUserByName(name);
+  const result = await userService.getUserByName(name);
   if (result.length) {
     const errorMsg = new Error(errorTypes.USER_ALREADY_EXISTS);
     return ctx.app.emit("error", errorMsg, ctx);

@@ -27,6 +27,10 @@ const errorHandler = (error, ctx) => {
       status = 401;
       message = "未登录, 无权操作~";
       break;
+    case errorTypes.NOT_PERMISSION:
+      status = 401;
+      message = "无操作权限~";
+      break;
     default:
       status = 404;
       message = "NOT FOUND";

@@ -2,7 +2,8 @@
  * 用户登录
  */
 const errorTypes = require("../constants/error-types");
-const service = require("../service/user.service");
+const userService = require("../service/user.service");
+const authService = require("../service/auth.service");
 const md5Encrypt = require("../utils/password-handle");
 const jwt = require("jsonwebtoken");
 const { PUBLIC_KEY } = require("../app/config");
@@ -18,7 +19,7 @@ const verifyLogin = async (ctx, next) => {
   }
 
   // 3.判断用户是否存在
-  const result = await service.getUserByName(name);
+  const result = await userService.getUserByName(name);
   const user = result[0];
   if (!user) {
     const errorMsg = new Error(errorTypes.USER_DOES_NOT_EXISTS);
@@ -57,7 +58,26 @@ const verifyAuth = async (ctx, next) => {
   await next();
 }
 
+const verifyPermission = async (ctx, next) => {
+  // 1.获取数据 (当前登录用户userId, 当前修改数据的id)
+  const { id } = ctx.user;
+  const { dynamicId } = ctx.params;
+
+  // 查询此条修改数据的userId
+  const result = await authService.checkDynamic(dynamicId);
+  const dynamicUserId = result[0].user_id;
+
+  // 判断是否具有权限 (登录用户userId 不等于 当前修改数据的userId, 则没有操作权限)
+  if (id !== dynamicUserId) {
+    const errorMsg = new Error(errorTypes.NOT_PERMISSION);
+    return ctx.app.emit("error", errorMsg, ctx);
+  }
+
+  await next();
+}
+
 module.exports = {
   verifyLogin,
-  verifyAuth
+  verifyAuth,
+  verifyPermission
 }

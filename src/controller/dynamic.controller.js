@@ -14,7 +14,7 @@ class DynamicController {
   }
 
   async list(ctx, next) {
-    // 获取数据（userId, offset, size）
+    // 获取数据 (userId, offset, size)
     const { userId, offset, size } = ctx.query;
 
     // 有userId, 就查这个用户的动态列表
@@ -24,6 +24,14 @@ class DynamicController {
     } else {
       ctx.body = await service.getDynamicList(null, offset, size);
     }
+  }
+
+  async update(ctx, next) {
+    const { dynamicId } = ctx.params;
+    const { content } = ctx.request.body;
+    const { id } = ctx.user;
+
+    ctx.body = "修改成功~";
   }
 }
 
