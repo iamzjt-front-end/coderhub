@@ -32,6 +32,14 @@ class DynamicController {
 
     ctx.body = await dynamicService.update(dynamicId, content);
   }
+
+  async remove(ctx, next) {
+    // 1. 获取dynamicId
+    const { dynamicId } = ctx.params;
+
+    // 2. 删除内容
+    ctx.body = await dynamicService.remove(dynamicId);
+  }
 }
 
 module.exports = new DynamicController();

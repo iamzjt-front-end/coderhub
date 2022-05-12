@@ -36,6 +36,12 @@ class DynamicService {
     const result = await connection.execute(statement, [content, dynamicId]);
     return result[0];
   }
+
+  async remove(dynamicId) {
+    const statement = `DELETE FROM dynamic WHERE id = ?;`;
+    const result = await connection.execute(statement, [dynamicId]);
+    return result[0];
+  }
 }
 
 module.exports = new DynamicService();

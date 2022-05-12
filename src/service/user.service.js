@@ -10,7 +10,7 @@ class UserService {
     const statement = `INSERT INTO user (name, password) VALUES (?, ?);`;
 
     const result = await connection.execute(statement, [name, password]);
-    return result;
+    return result[0];
   }
 
   // 2.根据用户名查询是否已存在
@@ -18,7 +18,7 @@ class UserService {
     const statement = `SELECT * FROM user WHERE name = ?;`;
 
     const result = await connection.execute(statement, [name]);
-    return result;
+    return result[0];
   }
 }
 
