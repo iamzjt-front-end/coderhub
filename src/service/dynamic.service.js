@@ -1,5 +1,5 @@
 /**
- * 动态
+ * 用户动态
  */
 const connection = require("../app/database");
 

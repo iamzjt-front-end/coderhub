@@ -1,5 +1,5 @@
 /**
- * 动态
+ * 用户动态
  */
 const Router = require("koa-router");
 const { verifyAuth, verifyPermission } = require("../middleware/auth.middleware");

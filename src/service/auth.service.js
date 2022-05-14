@@ -1,5 +1,5 @@
 /**
- * 权限
+ * 权限验证
  */
 const connection = require("../app/database");
 

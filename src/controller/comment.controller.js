@@ -1,5 +1,5 @@
 /**
- * 评论
+ * 用户评论
  */
 const commentService = require("../service/comment.service");
 

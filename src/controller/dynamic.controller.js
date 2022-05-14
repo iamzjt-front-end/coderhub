@@ -1,5 +1,5 @@
 /**
- * 动态
+ * 用户动态
  */
 const dynamicService = require("../service/dynamic.service");
 

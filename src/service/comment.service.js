@@ -1,5 +1,5 @@
 /**
- * 评论
+ * 用户评论
  */
 const connection = require("../app/database");
 

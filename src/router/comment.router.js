@@ -1,5 +1,5 @@
 /**
- * 评论
+ * 用户评论
  */
 const Router = require("koa-router");
 const { verifyAuth } = require("../middleware/auth.middleware");
