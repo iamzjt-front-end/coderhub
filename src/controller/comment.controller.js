@@ -12,10 +12,24 @@ class CommentController {
   }
 
   async reply(ctx, next) {
-    const { dynamicId, commentId, content } = ctx.request.body;
+    const { commentId } = ctx.params;
+    const { dynamicId, content } = ctx.request.body;
     const { id } = ctx.user;
 
     ctx.body = await commentService.reply(dynamicId, commentId, id, content);
+  }
+
+  async update(ctx, next) {
+    const { commentId } = ctx.params;
+    const { content } = ctx.request.body;
+
+    ctx.body = await commentService.update(commentId, content);
+  }
+
+  async remove(ctx, next) {
+    const { commentId } = ctx.params;
+
+    ctx.body = await commentService.remove(commentId);
   }
 }
 
