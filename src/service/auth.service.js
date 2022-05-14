@@ -4,10 +4,10 @@
 const connection = require("../app/database");
 
 class AuthService {
-  async checkDynamic(dynamicId) {
-    const statement = `SELECT * FROM dynamic WHERE id = ?;`;
+  async getVerifyData(tableName, dataId) {
+    const statement = `SELECT * FROM ${ tableName } WHERE id = ?;`;
 
-    const result = await connection.execute(statement, [dynamicId]);
+    const result = await connection.execute(statement, [dataId]);
     return result[0];
   }
 }

@@ -60,15 +60,16 @@ const verifyAuth = async (ctx, next) => {
 
 const verifyPermission = async (ctx, next) => {
   // 1.获取数据 (当前登录用户userId, 当前修改数据的id)
-  const { id } = ctx.user;
-  const { dynamicId } = ctx.params;
+  const loginUserId = ctx.user.id;
+  let operateParams = ctx.request.url.split("/").filter(item => item);
+  const [tableName, dataId] = operateParams;
 
   // 查询此条修改数据的userId
-  const result = await authService.checkDynamic(dynamicId);
-  const dynamicUserId = result[0].user_id;
+  const result = await authService.getVerifyData(tableName, dataId);
+  const operateDataUserId = result[0].user_id;
 
   // 判断是否具有权限 (登录用户userId 不等于 当前修改数据的userId, 则没有操作权限)
-  if (id !== dynamicUserId) {
+  if (loginUserId !== operateDataUserId) {
     const errorMsg = new Error(errorTypes.NOT_PERMISSION);
     return ctx.app.emit("error", errorMsg, ctx);
   }
