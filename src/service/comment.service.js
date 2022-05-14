@@ -11,19 +11,10 @@ class commentService {
     return result[0];
   }
 
-  async getCommentList(userId, offset, size) {
-    
-  }
+  async reply(dynamicId, commentId, id, content) {
+    const statement = `INSERT INTO comment (dynamic_id, comment_id, user_id, content) values (?, ?, ?, ?);`;
 
-  async update(dynamicId, content) {
-    const statement = `UPDATE dynamic SET content = ? WHERE id = ?;`;
-    const result = await connection.execute(statement, [content, dynamicId]);
-    return result[0];
-  }
-
-  async remove(dynamicId) {
-    const statement = `DELETE FROM dynamic WHERE id = ?;`;
-    const result = await connection.execute(statement, [dynamicId]);
+    const result = await connection.execute(statement, [dynamicId, commentId, id, content]);
     return result[0];
   }
 }
