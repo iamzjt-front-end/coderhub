@@ -6,9 +6,10 @@ const connection = require("../app/database");
 const sqlFragment = `
   SELECT 
     d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
-    JSON_OBJECT('id', u.id, 'name', u.name) user
-    FROM dynamic d 
-    LEFT JOIN user u ON d.user_id = u.id
+    JSON_OBJECT('id', u.id, 'name', u.name) user,
+    (SELECT COUNT(*) from comment c WHERE d.id = c.dynamic_id) commentCount
+  FROM dynamic d 
+  LEFT JOIN user u ON d.user_id = u.id
 `;
 
 class DynamicService {
