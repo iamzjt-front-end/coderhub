@@ -32,7 +32,13 @@ class commentService {
   }
 
   async getListByDynamicId(dynamicId) {
-    const statement = `SELECT * from comment WHERE dynamic_id = ?;`;
+    const statement = `
+    SELECT 
+      c.id id, c.content content, c.createAt createTime,
+      JSON_OBJECT('id', u.id, 'name', u.name) commentator
+    from comment c 
+    LEFT JOIN user u ON c.user_id = u.id
+    WHERE dynamic_id = ?;`;
 
     const result = await connection.execute(statement, [dynamicId]);
     return result[0];
