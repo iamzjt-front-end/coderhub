@@ -31,6 +31,12 @@ class CommentController {
 
     ctx.body = await commentService.remove(commentId);
   }
+
+  async list(ctx, next) {
+    const { dynamicId } = ctx.query;
+
+    ctx.body = await commentService.getListByDynamicId(dynamicId);
+  }
 }
 
 

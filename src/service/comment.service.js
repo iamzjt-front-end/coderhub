@@ -30,6 +30,13 @@ class commentService {
     const result = await connection.execute(statement, [commentId]);
     return result[0];
   }
+
+  async getListByDynamicId(dynamicId) {
+    const statement = `SELECT * from comment WHERE dynamic_id = ?;`;
+
+    const result = await connection.execute(statement, [dynamicId]);
+    return result[0];
+  }
 }
 
 module.exports = new commentService();
