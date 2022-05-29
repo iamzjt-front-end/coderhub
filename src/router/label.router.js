@@ -2,7 +2,7 @@
  * 标签
  */
 const Router = require("koa-router");
-const { verifyAuth, verifyPermission } = require("../middleware/auth.middleware");
+const { verifyAuth } = require("../middleware/auth.middleware");
 const { create } = require("../controller/label.controller");
 
 const labelRouter = new Router({ prefix: "/label" });
