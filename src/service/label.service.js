@@ -4,14 +4,12 @@
 const connection = require("../app/database");
 
 class LabelService {
-  async create(userId, content) {
-    const statement = `INSERT INTO dynamic (user_id, content) values (?, ?);`;
+  async create(name) {
+    const statement = `INSERT INTO label (name) values (?);`;
 
-    const result = await connection.execute(statement, [userId, content]);
+    const result = await connection.execute(statement, [name]);
     return result[0];
   }
-
-
 }
 
 module.exports = new LabelService();

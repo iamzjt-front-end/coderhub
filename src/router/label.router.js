@@ -7,6 +7,6 @@ const { create } = require("../controller/label.controller");
 
 const labelRouter = new Router({ prefix: "/label" });
 
-labelRouter.post("/", verifyAuth, create); // 新增标签
+labelRouter.post("/", verifyAuth, create); // 创建标签
 
 module.exports = labelRouter;
