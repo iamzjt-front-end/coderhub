@@ -40,6 +40,15 @@ class DynamicController {
     // 2. 删除内容
     ctx.body = await dynamicService.remove(dynamicId);
   }
+
+  async addLabels(ctx, next) {
+    // 1. 获取dynamicId 和 labels (支持同时添加多个标签)
+    const { dynamicId } = ctx.params;
+    const { labels } = ctx.request.body;
+
+    // 2. 添加标签
+    ctx.body = await dynamicService.addLabels(dynamicId, labels);
+  }
 }
 
 module.exports = new DynamicController();

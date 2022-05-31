@@ -43,6 +43,12 @@ class DynamicService {
     const result = await connection.execute(statement, [dynamicId]);
     return result[0];
   }
+
+  async addLabels(dynamicId, labels) {
+    const statement = ``;
+    const result = await connection.execute(statement, dynamicId, labels);
+    return result[0];
+  }
 }
 
 module.exports = new DynamicService();
