@@ -42,11 +42,13 @@ class DynamicController {
   }
 
   async addLabels(ctx, next) {
-    // 1. 获取dynamicId 和 labels (支持同时添加多个标签)
+    // 1. 获取dynamicId 和 labels
     const { dynamicId } = ctx.params;
-    const { labels } = ctx.request.body;
+    const { labels } = ctx
 
-    // 2. 添加标签
+    // 2. 判断每个标签是否被添加过 todo
+
+    // 2. 写进关系表
     ctx.body = await dynamicService.addLabels(dynamicId, labels);
   }
 }
