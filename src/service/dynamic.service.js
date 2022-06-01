@@ -7,7 +7,8 @@ const sqlFragment = `
   SELECT 
     d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
     JSON_OBJECT('id', u.id, 'name', u.name) user,
-    (SELECT COUNT(*) from comment c WHERE d.id = c.dynamic_id) commentCount
+    (SELECT COUNT(*) from comment c WHERE d.id = c.dynamic_id) commentCount,
+    (SELECT COUNT(*) from dynamic_label dl WHERE d.id = dl.dynamic_id) labelCount
   FROM dynamic d 
   LEFT JOIN user u ON d.user_id = u.id
 `;
