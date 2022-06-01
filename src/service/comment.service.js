@@ -5,14 +5,14 @@ const connection = require("../app/database");
 
 class commentService {
   async create(dynamicId, id, content) {
-    const statement = `INSERT INTO comment (dynamic_id, user_id, content) values (?, ?, ?);`;
+    const statement = `INSERT INTO comment (dynamic_id, user_id, content) VALUES (?, ?, ?);`;
 
     const result = await connection.execute(statement, [dynamicId, id, content]);
     return result[0];
   }
 
   async reply(dynamicId, commentId, id, content) {
-    const statement = `INSERT INTO comment (dynamic_id, comment_id, user_id, content) values (?, ?, ?, ?);`;
+    const statement = `INSERT INTO comment (dynamic_id, comment_id, user_id, content) VALUES (?, ?, ?, ?);`;
 
     const result = await connection.execute(statement, [dynamicId, commentId, id, content]);
     return result[0];

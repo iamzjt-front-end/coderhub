@@ -14,7 +14,7 @@ const sqlFragment = `
 
 class DynamicService {
   async create(userId, content) {
-    const statement = `INSERT INTO dynamic (user_id, content) values (?, ?);`;
+    const statement = `INSERT INTO dynamic (user_id, content) VALUES (?, ?);`;
 
     const result = await connection.execute(statement, [userId, content]);
     return result[0];
