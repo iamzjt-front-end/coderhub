@@ -19,7 +19,7 @@ class LabelService {
   }
 
   async getLabels(offset, limit) {
-    const statement = `SELECT * FROM label l LIMIT ?, ?;`;
+    const statement = `SELECT * FROM label LIMIT ?, ?;`;
 
     const result = await connection.execute(statement, [offset, limit]);
     return result[0];
