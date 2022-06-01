@@ -12,12 +12,12 @@ const verifyLabelExists = async (ctx, next) => {
   for (let name of labels) {
     const labelResult = await labelService.getLabelByName(name);
     const label = { name };
-    if (labelResult.length) {
-      label.id = labelResult[0].id;
-    } else {
+    if (!labelResult) {
       // 如果不存在就创建
       const result = await labelService.create(name);
       label.id = result.insertId;
+    } else {
+      label.id = labelResult.id;
     }
     newLabels.push(label);
   }

@@ -7,27 +7,28 @@ const sqlFragment = `
   SELECT 
     d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
     JSON_OBJECT('id', u.id, 'name', u.name) user,
-    (SELECT COUNT(*) from comment c WHERE d.id = c.dynamic_id) commentCount
+    (SELECT COUNT(*) from comment c WHERE d.id = c.dynamic_id) commentCount,
+    (SELECT COUNT(*) from dynamic_label dl WHERE d.id = dl.dynamic_id) labelCount
   FROM dynamic d 
   LEFT JOIN user u ON d.user_id = u.id
 `;
 
 class DynamicService {
   async create(userId, content) {
-    const statement = `INSERT INTO dynamic (user_id, content) values (?, ?);`;
+    const statement = `INSERT INTO dynamic (user_id, content) VALUES (?, ?);`;
 
     const result = await connection.execute(statement, [userId, content]);
     return result[0];
   }
 
-  async getDynamicList(userId, offset, size) {
+  async getDynamicList(userId, offset, limit) {
     const statement1 = `${ sqlFragment } WHERE d.user_id = ? LIMIT ?, ?;`;
     const statement2 = `${ sqlFragment } LIMIT ?, ?;`;
     let result;
     if (userId) {
-      result = await connection.execute(statement1, [userId, offset, size]);
+      result = await connection.execute(statement1, [userId, offset, limit]);
     } else {
-      result = await connection.execute(statement2, [offset, size]);
+      result = await connection.execute(statement2, [offset, limit]);
     }
     return result[0];
   }
@@ -44,9 +45,15 @@ class DynamicService {
     return result[0];
   }
 
-  async addLabels(dynamicId, labels) {
-    const statement = ``;
-    const result = await connection.execute(statement, dynamicId, labels);
+  async getDynamicLabelById(dynamicId, labelId) {
+    const statement = `SELECT * FROM dynamic_label WHERE dynamic_id = ? AND label_id = ?;`;
+    const result = await connection.execute(statement, [dynamicId, labelId]);
+    return result[0] && result[0].length ? result[0][0] : null;
+  }
+
+  async addLabel(dynamicId, labelId) {
+    const statement = `INSERT INTO dynamic_label (dynamic_id, label_id) VALUES (?, ?);`;
+    const result = await connection.execute(statement, [dynamicId, labelId]);
     return result[0];
   }
 }
