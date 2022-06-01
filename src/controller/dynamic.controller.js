@@ -14,15 +14,15 @@ class DynamicController {
   }
 
   async list(ctx, next) {
-    // 获取数据 (userId, offset, size)
-    const { userId, offset, size } = ctx.query;
+    // 获取数据 (userId, offset, limit)
+    const { userId, offset, limit } = ctx.query;
 
     // 有userId, 就查这个用户的动态列表
     // 没有userId, 就查询所有数据
     if (userId) {
-      ctx.body = await dynamicService.getDynamicList(userId, offset, size);
+      ctx.body = await dynamicService.getDynamicList(userId, offset, limit);
     } else {
-      ctx.body = await dynamicService.getDynamicList(null, offset, size);
+      ctx.body = await dynamicService.getDynamicList(null, offset, limit);
     }
   }
 

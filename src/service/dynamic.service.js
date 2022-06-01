@@ -20,14 +20,14 @@ class DynamicService {
     return result[0];
   }
 
-  async getDynamicList(userId, offset, size) {
+  async getDynamicList(userId, offset, limit) {
     const statement1 = `${ sqlFragment } WHERE d.user_id = ? LIMIT ?, ?;`;
     const statement2 = `${ sqlFragment } LIMIT ?, ?;`;
     let result;
     if (userId) {
-      result = await connection.execute(statement1, [userId, offset, size]);
+      result = await connection.execute(statement1, [userId, offset, limit]);
     } else {
-      result = await connection.execute(statement2, [offset, size]);
+      result = await connection.execute(statement2, [offset, limit]);
     }
     return result[0];
   }

@@ -11,9 +11,9 @@ class LabelController {
   }
 
   async list(ctx, next) {
-    const { offset, size } = ctx.query;
+    const { offset, limit } = ctx.query;
 
-    ctx.body = await labelService.getLabels(offset, size);
+    ctx.body = await labelService.getLabels(offset, limit);
   }
 }
 
