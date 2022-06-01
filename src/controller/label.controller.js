@@ -15,6 +15,12 @@ class LabelController {
 
     ctx.body = await labelService.getLabels(offset, limit);
   }
+
+  async remove(ctx, next) {
+    const { labelId } = ctx.params;
+
+    ctx.body = await labelService.remove(labelId);
+  }
 }
 
 module.exports = new LabelController();
