@@ -44,9 +44,15 @@ class DynamicService {
     return result[0];
   }
 
-  async addLabels(dynamicId, labels) {
-    const statement = ``;
-    const result = await connection.execute(statement, dynamicId, labels);
+  async getDynamicLabelById(dynamicId, labelId) {
+    const statement = `SELECT * FROM dynamic_label WHERE dynamic_id = ? AND label_id = ?;`;
+    const result = await connection.execute(statement, [dynamicId, labelId]);
+    return result[0] && result[0].length ? result[0][0] : null;
+  }
+
+  async addLabel(dynamicId, labelId) {
+    const statement = `INSERT INTO dynamic_label (dynamic_id, label_id) VALUES (?, ?);`;
+    const result = await connection.execute(statement, [dynamicId, labelId]);
     return result[0];
   }
 }

@@ -46,10 +46,17 @@ class DynamicController {
     const { dynamicId } = ctx.params;
     const { labels } = ctx
 
-    // 2. 判断每个标签是否被添加过 todo
+    // 2. 添加所有的标签
+    for (let label of labels) {
+      // 2.1 判断标签是否已经和动态有关系
+      const dynamicLabelResult = await dynamicService.getDynamicLabelById(dynamicId, label.id);
+      if (!dynamicLabelResult) {
+        // 2.2 写进关系表
+        await dynamicService.addLabel(dynamicId, label.id);
+      }
+    }
 
-    // 2. 写进关系表
-    ctx.body = await dynamicService.addLabels(dynamicId, labels);
+    ctx.body = "添加标签成功~";
   }
 }
 
