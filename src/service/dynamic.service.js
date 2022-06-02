@@ -4,16 +4,16 @@
 const connection = require("../app/database");
 
 const sqlFragment = `
-  SELECT 
-    d.id id, d.content content, d.createAt createTime, d.updateAt updateTime, 
-    JSON_OBJECT('id', u.id, 'name', u.name) createUser, 
+  SELECT
+    d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
+    JSON_OBJECT('id', u.id, 'name', u.name) createUser,
     IF(COUNT(c.id),JSON_ARRAYAGG(
-      JSON_OBJECT('id', c.id, 'content', c.content, 'createTime', c.createAt, 
+      JSON_OBJECT('id', c.id, 'content', c.content, 'createTime', c.createAt,
       'user', JSON_OBJECT('id', cu.id, 'name', cu.name))
       ),NULL) comments
   FROM dynamic d
-  LEFT JOIN user u ON d.user_id = u.id 
-  LEFT JOIN comment c ON d.id = c.dynamic_id 
+  LEFT JOIN user u ON d.user_id = u.id
+  LEFT JOIN comment c ON d.id = c.dynamic_id
   LEFT JOIN user cu ON c.user_id = cu.id
 `;
 
