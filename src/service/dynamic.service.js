@@ -8,9 +8,17 @@ const sqlFragment = `
     d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
     JSON_OBJECT('id', u.id, 'name', u.name) createUser,
     IF(COUNT(c.id),JSON_ARRAYAGG(
-      JSON_OBJECT('id', c.id, 'content', c.content, 'createTime', c.createAt,
+      JSON_OBJECT('id', c.id, 'content', c.content, 'createTime', c.createAt, 
       'user', JSON_OBJECT('id', cu.id, 'name', cu.name))
-      ),NULL) comments
+    ),NULL) comments,
+    (SELECT 
+      IF(COUNT(l.id),JSON_ARRAYAGG(
+      JSON_OBJECT('id', l.id, 'name', l.name)
+    ),NULL)
+    FROM label l
+    LEFT JOIN dynamic_label dl ON l.id = dl.label_id
+    WHERE dl.dynamic_id = d.id
+    ) labels
   FROM dynamic d
   LEFT JOIN user u ON d.user_id = u.id
   LEFT JOIN comment c ON d.id = c.dynamic_id
