@@ -5,12 +5,16 @@ const connection = require("../app/database");
 
 const sqlFragment = `
   SELECT 
-    d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
-    JSON_OBJECT('id', u.id, 'name', u.name) user,
-    (SELECT COUNT(*) from comment c WHERE d.id = c.dynamic_id) commentCount,
-    (SELECT COUNT(*) from dynamic_label dl WHERE d.id = dl.dynamic_id) labelCount
-  FROM dynamic d 
-  LEFT JOIN user u ON d.user_id = u.id
+    d.id id, d.content content, d.createAt createTime, d.updateAt updateTime, 
+    JSON_OBJECT('id', u.id, 'name', u.name) createUser, 
+    IF(COUNT(c.id),JSON_ARRAYAGG(
+      JSON_OBJECT('id', c.id, 'content', c.content, 'createTime', c.createAt, 
+      'user', JSON_OBJECT('id', cu.id, 'name', cu.name))
+      ),NULL) comments
+  FROM dynamic d
+  LEFT JOIN user u ON d.user_id = u.id 
+  LEFT JOIN comment c ON d.id = c.dynamic_id 
+  LEFT JOIN user cu ON c.user_id = cu.id
 `;
 
 class DynamicService {
@@ -22,8 +26,8 @@ class DynamicService {
   }
 
   async getDynamicList(userId, offset, limit) {
-    const statement1 = `${ sqlFragment } WHERE d.user_id = ? LIMIT ?, ?;`;
-    const statement2 = `${ sqlFragment } LIMIT ?, ?;`;
+    const statement1 = `${ sqlFragment } WHERE d.user_id = ? GROUP BY d.id LIMIT ?, ?;`;
+    const statement2 = `${ sqlFragment } GROUP BY d.id LIMIT ?, ?;`;
     let result;
     if (userId) {
       result = await connection.execute(statement1, [userId, offset, limit]);
