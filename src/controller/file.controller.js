@@ -9,7 +9,7 @@ class FileController {
     const { id } = ctx.user;
     const { originalname, filename, mimetype, path, size } = ctx.req.file;
 
-    ctx.body = fileService.upload(id, originalname, filename, mimetype, path, size);
+    ctx.body = await fileService.upload(id, originalname, filename, mimetype, path, size);
   }
 }
 
