@@ -15,7 +15,7 @@ class FileService {
     const statement = `SELECT * FROM file WHERE user_id = ?;`;
 
     const result = await connection.execute(statement, [userId]);
-    return result[0];
+    return result[0][0];
   }
 }
 

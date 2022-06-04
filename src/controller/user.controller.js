@@ -1,8 +1,11 @@
 /**
  * 用户注册
  */
+const fs = require("fs");
+
 const userService = require("../service/user.service");
 const fileService = require("../service/file.service");
+const { AVATAR_PATH } = require("../constants/file-patht");
 
 class UserController {
   async create(ctx, next) {
@@ -16,8 +19,11 @@ class UserController {
   async avatarInfo(ctx, next) {
     const { userId } = ctx.params;
 
-    const result = await fileService.getAvatarByUserId(userId);
-    ctx.body = result[0];
+    // 获取头像信息并返回
+    const avatarInfo = await fileService.getAvatarByUserId(userId);
+
+    ctx.response.set("content-type", avatarInfo.mimeType);
+    ctx.body = fs.createReadStream(`${ AVATAR_PATH }/${ avatarInfo.filename }`);
   }
 }
 
