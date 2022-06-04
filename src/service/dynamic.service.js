@@ -6,15 +6,15 @@ const connection = require("../app/database");
 const sqlFragment = `
   SELECT
     d.id id, d.content content, d.createAt createTime, d.updateAt updateTime,
-    JSON_OBJECT('id', u.id, 'name', u.name) createUser,
+    JSON_OBJECT('id', u.id, 'name', u.name, 'avatarUrl', u.avatar_url) createUser,
     IF(COUNT(c.id),JSON_ARRAYAGG(
       JSON_OBJECT('id', c.id, 'content', c.content, 'createTime', c.createAt, 
-      'user', JSON_OBJECT('id', cu.id, 'name', cu.name))
+      'user', JSON_OBJECT('id', cu.id, 'name', cu.name, 'avatarUrl', cu.avatar_url))
     ),NULL) comments,
     (
       SELECT 
         IF(COUNT(l.id),JSON_ARRAYAGG(
-        JSON_OBJECT('id', l.id, 'name', l.name)
+          JSON_OBJECT('id', l.id, 'name', l.name)
         ),NULL)
       FROM label l
       LEFT JOIN dynamic_label dl ON l.id = dl.label_id
