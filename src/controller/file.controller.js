@@ -11,7 +11,7 @@ class FileController {
     const { id } = ctx.user;
     const { originalname, filename, mimetype, path, size } = ctx.req.file;
 
-    const result = await fileService.upload(id, originalname, filename, mimetype, path, size);
+    await fileService.upload(id, null, originalname, filename, mimetype, path, size);
 
     // 2.将图片地址保存在 user 表中
     const avatarUrl = `http://${ config.APP_HOST }:${ config.APP_PORT }/user/${ id }/avatar`;
@@ -19,6 +19,21 @@ class FileController {
 
     // 3.返回结果
     ctx.body = "上传头像成功~";
+  }
+
+  async savePictureInfo(ctx, next) {
+    // 1.获取图像信息
+    const { files } = ctx.req;
+    const { id } = ctx.user;
+    const { dynamicId } = ctx.query;
+
+    // 2.将所有的图片信息保存到数据库中
+    for (let file of files) {
+      const { originalname, filename, mimetype, path, size } = file;
+      await fileService.upload(id, dynamicId, originalname, filename, mimetype, path, size);
+    }
+
+    ctx.body = "动态配图上传完成~"
   }
 }
 

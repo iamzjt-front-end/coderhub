@@ -4,10 +4,10 @@
 const connection = require("../app/database");
 
 class FileService {
-  async upload(id, originalname, filename, mimetype, path, size) {
-    const statement = `INSERT INTO file (user_id, originalname, filename, mimetype, path, size) VALUES (?, ?, ?, ?, ?, ?);`;
+  async upload(id, dynamicId, originalname, filename, mimetype, path, size) {
+    const statement = `INSERT INTO file (user_id, dynamic_id, originalname, filename, mimetype, path, size) VALUES (?, ?, ?, ?, ?, ?, ?);`;
 
-    const result = await connection.execute(statement, [id, originalname, filename, mimetype, path, size]);
+    const result = await connection.execute(statement, [id, dynamicId, originalname, filename, mimetype, path, size]);
     return result[0];
   }
 
