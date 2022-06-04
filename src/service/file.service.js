@@ -10,6 +10,13 @@ class FileService {
     const result = await connection.execute(statement, [id, originalname, filename, mimetype, path, size]);
     return result[0];
   }
+
+  async getAvatarByUserId(userId) {
+    const statement = `SELECT * FROM file WHERE user_id = ?;`;
+
+    const result = await connection.execute(statement, [userId]);
+    return result[0];
+  }
 }
 
 module.exports = new FileService();
