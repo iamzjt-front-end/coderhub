@@ -9,6 +9,6 @@ const { saveAvatarInfo } = require("../controller/file.controller");
 
 const fileRouter = new Router({ prefix: "/upload" });
 
-fileRouter.post("/avatar", verifyAuth, avatarHandler, saveAvatarInfo);
+fileRouter.post("/avatar", verifyAuth, avatarHandler, saveAvatarInfo); // 上传头像
 
 module.exports = fileRouter;
