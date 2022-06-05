@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 dotenv.config({
-  path: ".env.dev"
+  path: process.env.NODE_ENV === "dev" ? ".env.dev" : ".env.prod"
 })
 
 // 使用绝对路径
