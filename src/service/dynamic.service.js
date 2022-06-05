@@ -18,8 +18,11 @@ const sqlFragment = `
         ),NULL)
       FROM label l
       LEFT JOIN dynamic_label dl ON l.id = dl.label_id
-      WHERE dl.dynamic_id = d.id
-    ) labels
+      WHERE d.id = dl.dynamic_id
+    ) labels,
+    (
+      SELECT JSON_ARRAYAGG(f.filename) FROM file f WHERE d.id = f.dynamic_id
+    ) images
   FROM dynamic d
   LEFT JOIN user u ON d.user_id = u.id
   LEFT JOIN comment c ON d.id = c.dynamic_id

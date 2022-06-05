@@ -6,6 +6,7 @@ const fs = require("fs");
 const dynamicService = require("../service/dynamic.service");
 const fileService = require("../service/file.service");
 const { PICTURE_PATH } = require("../constants/file-path");
+const config = require("../app/config");
 
 class DynamicController {
   async create(ctx, next) {
@@ -23,11 +24,19 @@ class DynamicController {
 
     // 有userId, 就查这个用户的动态列表
     // 没有userId, 就查询所有数据
+    let result;
     if (userId) {
-      ctx.body = await dynamicService.getDynamicList(userId, offset, limit);
+      result = await dynamicService.getDynamicList(userId, offset, limit);
     } else {
-      ctx.body = await dynamicService.getDynamicList(null, offset, limit);
+      result = await dynamicService.getDynamicList(null, offset, limit);
     }
+    for (const obj of result) {
+      if (obj.images?.length) {
+        obj.images = obj.images.map(item => `http://${ config.APP_HOST }:${ config.APP_PORT }/dynamic/images/${ item }`)
+      }
+    }
+
+    ctx.body = result;
   }
 
   async update(ctx, next) {
