@@ -1,7 +1,11 @@
 /**
  * 用户动态
  */
+const fs = require("fs");
+
 const dynamicService = require("../service/dynamic.service");
+const fileService = require("../service/file.service");
+const { PICTURE_PATH } = require("../constants/file-path");
 
 class DynamicController {
   async create(ctx, next) {
@@ -57,6 +61,15 @@ class DynamicController {
     }
 
     ctx.body = "添加标签成功~";
+  }
+
+  async fileInfo(ctx, next) {
+    const { filename } = ctx.params;
+
+    const fileInfo = await fileService.getFileByFilename(filename);
+
+    ctx.response.set("content-type", fileInfo.mimeType);
+    ctx.body = fs.createReadStream(`${ PICTURE_PATH }/${ fileInfo.filename }`);
   }
 }
 

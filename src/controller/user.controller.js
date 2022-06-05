@@ -5,7 +5,7 @@ const fs = require("fs");
 
 const userService = require("../service/user.service");
 const fileService = require("../service/file.service");
-const { AVATAR_PATH } = require("../constants/file-patht");
+const { AVATAR_PATH } = require("../constants/file-path");
 
 class UserController {
   async create(ctx, next) {
