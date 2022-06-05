@@ -19,7 +19,7 @@ class FileService {
   }
 
   async getFileByFilename(filename) {
-    const statement = `SELECT * FROM file WHERE filename = ? WHERE dynamic_id IS NOT NULL;`;
+    const statement = `SELECT * FROM file WHERE filename = ? AND dynamic_id IS NOT NULL;`;
 
     const result = await connection.execute(statement, [filename]);
     return result[0][0];
